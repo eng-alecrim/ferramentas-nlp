@@ -6,14 +6,14 @@ from pathlib import Path
 from typing import Dict
 from wordcloud import WordCloud
 from matplotlib import pyplot as plt
-import os
+from .utils import get_path_projeto
 
 # =============================================================================
 # CONSTANTES
 # =============================================================================
 
-DIRETORIO_ATUAL = os.path.dirname(__file__) if "__file__" in locals() else os.getcwd()
-DIRETORIO_PROJETO = Path(DIRETORIO_ATUAL).parent
+DIRETORIO_PROJETO = get_path_projeto()
+assert isinstance(DIRETORIO_PROJETO, Path)
 DIRETORIO_DADOS = DIRETORIO_PROJETO / "data"
 DIRETORIO_NUVEM_PALAVRAS = DIRETORIO_DADOS / "nuvens_palavras"
 DIRETORIO_NUVEM_PALAVRAS.mkdir(exist_ok=True, parents=True)
@@ -31,6 +31,7 @@ def gera_nuvem(
     frequencia_palavras: Dict[str, int],
     numero_palavras: int = 10,
     nome_img: str = "nuvem",
+    diretorio_destino: Path = DIRETORIO_NUVEM_PALAVRAS,
 ) -> None:
 
     wordcloud = WordCloud(
@@ -43,7 +44,7 @@ def gera_nuvem(
     plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
-    plt.savefig(DIRETORIO_NUVEM_PALAVRAS / f"{nome_img}.png", dpi=500)
+    plt.savefig(diretorio_destino / f"{nome_img}.png", dpi=500)
     plt.show()
 
     return None

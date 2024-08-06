@@ -11,14 +11,14 @@ import pandas as pd
 from spacy.lang.pt.stop_words import STOP_WORDS as STOP_WORDS_PT
 from spacy.lang.es.stop_words import STOP_WORDS as STOP_WORDS_ES
 from spacy.lang.en.stop_words import STOP_WORDS as STOP_WORDS_EN
-import os
+from .utils import get_path_projeto
 
 # =============================================================================
 # CONSTANTES
 # =============================================================================
 
-DIRETORIO_ATUAL = os.path.dirname(__file__) if "__file__" in locals() else os.getcwd()
-DIRETORIO_PROJETO = Path(DIRETORIO_ATUAL).parent
+DIRETORIO_PROJETO = get_path_projeto()
+assert isinstance(DIRETORIO_PROJETO, Path)
 DIRETORIO_DADOS = DIRETORIO_PROJETO / "data"
 
 # -----------------------------------------------------------------------------
