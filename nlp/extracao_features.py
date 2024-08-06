@@ -4,13 +4,15 @@
 
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
-from sklearn.feature_extraction.text import CountVectorizer
+
 import numpy as np
-import spacy
 import pandas as pd
-from spacy.lang.pt.stop_words import STOP_WORDS as STOP_WORDS_PT
-from spacy.lang.es.stop_words import STOP_WORDS as STOP_WORDS_ES
+import spacy
+from sklearn.feature_extraction.text import CountVectorizer
 from spacy.lang.en.stop_words import STOP_WORDS as STOP_WORDS_EN
+from spacy.lang.es.stop_words import STOP_WORDS as STOP_WORDS_ES
+from spacy.lang.pt.stop_words import STOP_WORDS as STOP_WORDS_PT
+
 from .utils import get_path_projeto
 
 # =============================================================================
@@ -48,7 +50,7 @@ def get_contagem_palavras(
     textos: Iterable[str],
     idioma_stop_words: Optional[str] = None,
     palavras_indesejadas: List[str] = [],
-    **kwargs
+    **kwargs,
 ) -> Dict[str, int]:
     """
     **kwargs:
@@ -59,10 +61,14 @@ def get_contagem_palavras(
     - ngram_range: tuple(min_n, max_n), default=(1, 1)
     """
 
-    stop_words = STOP_WORDS.get(idioma_stop_words) if idioma_stop_words else None
+    stop_words = (
+        STOP_WORDS.get(idioma_stop_words) if idioma_stop_words else None
+    )
     if stop_words:
         palavras_indesejadas += stop_words
-    vetorizador_contagem = CountVectorizer(stop_words=palavras_indesejadas, **kwargs)
+    vetorizador_contagem = CountVectorizer(
+        stop_words=palavras_indesejadas, **kwargs
+    )
     matriz_contagem = vetorizador_contagem.fit_transform(textos).toarray()
     palavras = vetorizador_contagem.get_feature_names_out()
     contagem_palavras = np.sum(matriz_contagem, axis=0)
@@ -88,4 +94,6 @@ def get_contagem_palavras_dataframe(
     - lowercase: bool True/False
     - ngram_range: tuple(min_n, max_n), default=(1, 1)
     """
-    return get_contagem_palavras(dataframe.loc[:, coluna_textos].values, **kwargs)
+    return get_contagem_palavras(
+        dataframe.loc[:, coluna_textos].values, **kwargs
+    )

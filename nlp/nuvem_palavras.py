@@ -4,8 +4,10 @@
 
 from pathlib import Path
 from typing import Dict
-from wordcloud import WordCloud
+
 from matplotlib import pyplot as plt
+from wordcloud import WordCloud
+
 from .utils import get_path_projeto
 
 # =============================================================================
@@ -33,7 +35,6 @@ def gera_nuvem(
     nome_img: str = "nuvem",
     diretorio_destino: Path = DIRETORIO_NUVEM_PALAVRAS,
 ) -> None:
-
     wordcloud = WordCloud(
         max_font_size=100,
         max_words=numero_palavras,

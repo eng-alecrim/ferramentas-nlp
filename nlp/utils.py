@@ -4,8 +4,9 @@
 
 import os
 from pathlib import Path
+from typing import Callable, Union
+
 from dotenv import find_dotenv, load_dotenv
-from typing import Union, Callable
 
 # =============================================================================
 # CONSTANTES
